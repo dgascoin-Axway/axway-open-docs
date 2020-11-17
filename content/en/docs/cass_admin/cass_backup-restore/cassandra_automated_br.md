@@ -147,6 +147,44 @@ Several time, the tool will ask you to perform manual actions on your nodes.
 Read carrefully the manual action, there are actions that need to be done on every node of your cluster and others that have to be executed only on the other nodes (not on the one where the script is running).
 {{% /alert %}}
 
+## Example: How to backup and restore a 3 node cluster into a new 3 node cluster
+
+In order to make it work, you need to have a copy of **axway-cassandra-tool** into the seed node of the old cluster, and one copy into the new cluster.
+
+1- Configure the **axway-cassandra-tool** for both cluster, check if the configuration is correct with
+```
+axway-cassandra-tool validateConfig
+```
+
+2- Run the backup script on your old Cluster
+```
+axway-cassandra-tool backup -k <your keyspace name> -s <your snapshot name>
+```
+
+3- Copy the backup folder in you new Cluster
+The backup need to be copied into the **backup_root_dir** directory that you have configured in you new Cluster.
+
+4- In your new Cluster, run the restore script
+
+```
+axway-cassandra-tool restore -k <your keyspace name> -s <your snapshot name>
+```
+
+The actions of starting and stopping Cassandra are not handled by the script, which mean you will need to perform them manually when the script ask you to.
+
+## Example: How to restore on the same Cluster
+
+In case your data become curropted, or you want to come back to a backup you've made in the past, on the same cluster, you only need to install your backup in the **backup_root_dir**  you configured, and run the restore command.
+
+```
+axway-cassandra-tool restore -k <your keyspace name> -s <your snapshot name>
+```
+
+If you still have the current keyspace in your Cassandra cluster, it will ask you if you want to remove it, and start fresh from the backup one.
+
+{{% alert title="Caution" %}}
+If you decide not to remove the keyspace, the script might fail and the data in your Cluster might become unstable.
+{{% /alert %}}
 
 ## Which configuration to back up?
 
