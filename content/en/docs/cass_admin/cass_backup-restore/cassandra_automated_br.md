@@ -60,12 +60,12 @@ Using `kpsadmin`, choose: `option 30) Show Configuration`, and enter the API Gat
 ## Download and configure the cassandra tool
 
 ### Download
-TODO, waiting for Kelly input on where we are storing the tool.
+TODO, waiting for Kelly input on where we are storing the tool and how we download it.
 
 ### Configure
 Once downloaded, you can add this tool on one node of your cluster, preferably on the seed node.
 
-On the `conf` directory, you will find a file named `axway-cassandra-tool.ini` that you need to configure
+On the `conf` directory, you will find a file named `apigw-backup-tool.ini` that you need to configure
 
 |Element |Description|
 |--------|:----------|
@@ -85,7 +85,7 @@ On the `conf` directory, you will find a file named `axway-cassandra-tool.ini` t
 
 Once you have set all your configuration, you can validate it by doing
 ```
-axway-cassandra-tool validateConfig
+apigw-backup-tool validateConfig
 ```
 
 This will validate if the tool can use you Cqlsh and Nodetool bin. You need a running Cassandra to make it work.
@@ -95,7 +95,7 @@ This will validate if the tool can use you Cqlsh and Nodetool bin. You need a ru
 To back up a keyspace, you will use the backup command of the tool:
 
 ```
-axway-cassandra-tool backup -k <your keyspace name> -s <your snapshot name>
+apigw-backup-tool backup -k <your keyspace name> -s <your snapshot name>
 ```
 
 You need to ensure that Cassandra is running for the processus to work.
@@ -136,7 +136,7 @@ TODO, the new keyspace name is not an available option, so how do we do ?
 
 2. Run the following command
 ```
-axway-cassandra-tool restore -k <your keyspace name> -s <your snapshot name>
+apigw-backup-tool restore -k <your keyspace name> -s <your snapshot name>
 ```
 
 The tool will perform several task to restore your cluster, the whole process might take times, depending on the data you have on your backup.
@@ -149,16 +149,16 @@ Read carrefully the manual action, there are actions that need to be done on eve
 
 ## Example: How to backup and restore a 3 node cluster into a new 3 node cluster
 
-In order to make it work, you need to have a copy of **axway-cassandra-tool** into the seed node of the old cluster, and one copy into the new cluster.
+In order to make it work, you need to have a copy of **apigw-backup-tool** into the seed node of the old cluster, and one copy into the new cluster.
 
-1- Configure the **axway-cassandra-tool** for both cluster, check if the configuration is correct with
+1- Configure the **apigw-backup-tool** for both cluster, check if the configuration is correct with
 ```
-axway-cassandra-tool validateConfig
+apigw-backup-tool validateConfig
 ```
 
 2- Run the backup script on your old Cluster
 ```
-axway-cassandra-tool backup -k <your keyspace name> -s <your snapshot name>
+apigw-backup-tool backup -k <your keyspace name> -s <your snapshot name>
 ```
 
 3- Copy the backup folder in you new Cluster
@@ -167,7 +167,7 @@ The backup need to be copied into the **backup_root_dir** directory that you hav
 4- In your new Cluster, run the restore script
 
 ```
-axway-cassandra-tool restore -k <your keyspace name> -s <your snapshot name>
+apigw-backup-tool restore -k <your keyspace name> -s <your snapshot name>
 ```
 
 The actions of starting and stopping Cassandra are not handled by the script, which mean you will need to perform them manually when the script ask you to.
@@ -177,7 +177,7 @@ The actions of starting and stopping Cassandra are not handled by the script, wh
 In case your data become curropted, or you want to come back to a backup you've made in the past, on the same cluster, you only need to install your backup in the **backup_root_dir**  you configured, and run the restore command.
 
 ```
-axway-cassandra-tool restore -k <your keyspace name> -s <your snapshot name>
+apigw-backup-tool restore -k <your keyspace name> -s <your snapshot name>
 ```
 
 If you still have the current keyspace in your Cassandra cluster, it will ask you if you want to remove it, and start fresh from the backup one.
