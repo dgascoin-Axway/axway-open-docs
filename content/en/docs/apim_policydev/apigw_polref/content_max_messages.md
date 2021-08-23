@@ -6,7 +6,7 @@
   "description": "Use the Throttling filter to rate limit calls to a back-end service."
 }
 
-{{< alert title="Note" color="primary" >}}This filter requires Cassandra and API Manager or a KPS table to work.{{< /alert >}}
+{{< alert title="Note" color="primary" >}}This filter requires a KPS table using Cassandra to work. This includes API Manager KPS tables.{{< /alert >}}
 
 The **Throttling** filter enables you to limit the number of requests that pass through an API Gateway in a specified time period. This enables you to enforce a specified message quota or *rate limit* on a client application, and to protect a back-end service from message flooding.
 
